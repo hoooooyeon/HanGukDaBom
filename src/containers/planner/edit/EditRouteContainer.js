@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import EditRoute from '../../../components/planner/edit/EditRoute';
@@ -25,13 +25,14 @@ import {
 
 const EditRouteContainer = () => {
     const dispatch = useDispatch();
-    const { planner, plannerError, plan, newPlanId, currentInfo, loading, location } = useSelector(({ plannerReducer, loadingReducer }) => ({
+    const { planner, plannerError, plan, newPlanId, currentInfo, loading, location, map } = useSelector(({ plannerReducer, loadingReducer }) => ({
         planner: plannerReducer.planner,
         plannerError: plannerReducer.plannerError,
         plan: plannerReducer.plan,
         currentInfo: plannerReducer.currentInfo,
         loading: loadingReducer.loading,
         location: plannerReducer.location,
+        map: plannerReducer.map,
     }));
 
     const { plannerId, plans, title, planDateStart, planDateEnd, expense, memberCount, memberTypeId } = { ...planner };
@@ -160,14 +161,37 @@ const EditRouteContainer = () => {
         dispatch(changeLocationAction(location));
     };
 
-    const onUpdateTrans = (trans) => {
+    const onUpdateTrans = (trans, local) => {
         if (planner && location) {
             const { locationId, locationName, locationImage, locationContentId } = location;
+            // const { locationId, locationName, locationImage, locationContentId } = local;
 
             let locationTransportation = trans;
             dispatch(updateLocationAction({ plannerId, locationId, locationName, locationContentId, locationImage, locationTransportation, planId }));
         }
     };
+
+    // 맨 처음 화면에 모든 루트를 포함한 지도
+    // const { kakao } = window;
+    // const onSetBounds = useCallback(() => {
+    //     if (map && plans) {
+    //         let bounds = new kakao.maps.LatLngBounds();
+    //         for (let i = 0; i < plans.length; i++) {
+    //             const { planLocations } = plans[i];
+    //             for (let j = 0; j < planLocations.length; j++) {
+    //                 const { locationMapx, locationMapy } = planLocations[j];
+    //                 // LatLngBounds 객체에 좌표를 추가합니다
+    //                 bounds.extend(new kakao.maps.LatLng(locationMapy, locationMapx));
+    //             }
+    //         }
+    //         // 지도에 루트에 포함된 마커들이 보이도록 범위 재설정
+    //         map.setBounds(bounds);
+    //     }
+    // }, [map, kakao.maps.LatLng, kakao.maps.LatLngBounds]);
+
+    // useEffect(() => {
+    //     onSetBounds();
+    // }, [onSetBounds]);
 
     return (
         <EditRoute

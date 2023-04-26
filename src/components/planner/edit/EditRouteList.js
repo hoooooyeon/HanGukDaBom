@@ -134,14 +134,14 @@ const EditRouteList = ({ planner, plan, currentInfo, onUpdatePlan, onDeleteLocat
         <EditRouteListBlock>
             {plans &&
                 plans.map((p, i) => (
-                    <RouteList aria-current={p.planId === currentInfo.planId ? 'plan' : null} key={i}>
+                    <RouteList aria-current={p.planId === currentInfo.planId ? 'plan' : null} key={p.planId}>
                         {p.planLocations.map((pl, i) => {
                             const { locationId, locationName, locationImage, locationTransportation } = pl;
                             return (
                                 <RouteItem
-                                    key={i}
+                                    key={locationId}
                                     onClick={() => {
-                                        onChangeLocation(pl);
+                                        // onChangeLocation(pl);
                                     }}
                                 >
                                     <RouteLine />
@@ -149,7 +149,7 @@ const EditRouteList = ({ planner, plan, currentInfo, onUpdatePlan, onDeleteLocat
                                         required
                                         value={locationTransportation}
                                         onChange={(e) => {
-                                            onUpdateTrans(e.target.value);
+                                            onUpdateTrans(e.target.value, pl);
                                         }}
                                     >
                                         {/* <option value="" disabled>

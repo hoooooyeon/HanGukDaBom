@@ -58,7 +58,7 @@ const EditMap = ({ mapRef, planner, onCreatePlanner, onUpdatePlanner, onToggleMe
     }
     return (
         <EditMapBlock>
-            <Map ref={mapRef} />
+            {/* <Map ref={mapRef} /> */}
             <ButtonBox>
                 <Button>사용 방법</Button>
                 <Button onClick={onToggleMemberModal}>멤버 초대</Button>

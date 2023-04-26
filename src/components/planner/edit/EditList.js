@@ -142,12 +142,7 @@ const EditList = ({ spots, onChangePlanLocation, onCreateLocation, onMoveMarker 
                 <List>
                     {spots.map((s, i) => {
                         return (
-                            <ListItem
-                                key={i}
-                                onClick={() => {
-                                    onMoveMarker(s);
-                                }}
-                            >
+                            <ListItem key={i}>
                                 <Img
                                 // src={s.firstimage || s.firstimage2}
                                 // alt={s.title}
@@ -160,6 +155,13 @@ const EditList = ({ spots, onChangePlanLocation, onCreateLocation, onMoveMarker 
                                     }}
                                 >
                                     추가
+                                </Button>
+                                <Button
+                                    onClick={() => {
+                                        onMoveMarker(s);
+                                    }}
+                                >
+                                    위치
                                 </Button>
                             </ListItem>
                         );
